@@ -1,0 +1,79 @@
+**************************************************************************************************************************************************
+*	Adhoc Commands	 
+**************************************************************************************************************************************************
+
+ansible all -i "localhost," -m ping
+ansible all -i "<SERVER_IP>," -m ping
+ansible all -i "<SERVER_IP>," -m win_ping
+ansible all -i <path_to_inventory_file> -l <Group Limit> -m shell -a "whoami"
+ansible all -i <path_to_inventory_file> -l <Group Limit> -m shell -a "whoami" -e ansible_user="<user>" -e ansible_password="<password>"
+
+**************************************************************************************************************************************************
+*	Ansible play file
+**************************************************************************************************************************************************
+vim play.yml
+---
+- name: Examplye play file
+  hosts: localhost
+  tasks:
+		- name: Run shell module and print logged in user
+		  shell: whoami
+		  
+		- name: Delete directory
+		  file:
+			path: /tmp/ayush
+			state: absent
+			
+	    - name: install nginx 
+		  yum:
+			name: nginx 
+			state: latest
+			
+**************************************************************************************************************************************************
+*	how to run ansible playbook(if SSH to servers are open without password)	 
+**************************************************************************************************************************************************
+ansible-playbook -i <path_to_inventory_file> -l <Group_limit> <path_to_play.yml>
+
+**************************************************************************************************************************************************
+*	how to run ansible playbook(if SSH to servers are not open without password)	 
+**************************************************************************************************************************************************
+ansible-playbook -i <path_to_inventory_file> -l <Group_limit> <path_to_play.yml> -e ansible_user="<user>" -e ansible_password="<password>"
+
+
+
+**************************************************************************************************************************************************
+*	how to call Roles in ansible(when play is executed, roles are sequentially called)	 
+**************************************************************************************************************************************************
+vim play.yml
+---
+- name: Examplye play file
+  hosts: localhost
+  roles:
+	-role: <path_to_first_role>
+	-role: <path_to_second_role>
+	
+
+
+**************************************************************************************************************************************************
+*	Ansible galaxy roles(Best practices)	 
+**************************************************************************************************************************************************
+ansible-galaxy init <roleName>
+
+above will create below directory structure
+
+roleName|-> .
+		|-> files -> static files(like htmls etc)
+		|-> handlers -> on demand tasks which needs to repeatively called
+		|-> templates -> it holds dynamic configuration files
+		|-> tasks -> main tasks
+		|-> defaults -> default variables
+		|-> vars -> variables which overrides default variables
+		|-> scripts -> holds shell scripts
+
+
+**************************************************************************************************************************************************
+*	Ansible galaxy - How to download roles	 
+**************************************************************************************************************************************************
+ansible-galaxy install -r requirements.yml -p <path_to_roles>
+
+Write - requirements file and mention all sources of roles and run above command to download it		

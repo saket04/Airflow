@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <title>My HTML</title>
+  <style>
+    h1,h2 {
+      background-color: #eeeeee;
+      border: solid 1px gray;
+      text-align: center;
+    }
+
+    .row {
+      background-color: #94bae6;
+      border: solid 2px black;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <nav class="navbar navbar-dark bg-dark" style="width: 100%;">
+        <span style="color:#ffffff;">Saket Suman's Page</span>
+        <a class="nav-link enabled" href="/">Home</a>
+      </nav>
+    </div>
+    <h1></1> AWS: S3_Upload and Download </h1>
+    <br />
+    <br />
+    <div class="row" class="row">
+      <div class="container">
+        <h2>Upload File</h2>
+        <span>Upload your file here:</span>
+        <form method="POST" action="/upload" enctype=multipart/form-data>
+          <input type=file name=file>
+          <input type=submit value=Upload>
+        </form>
+      </div>
+    </div>
+    <br />
+    <br />
+    <div class="row" class="row">
+      <div class="container">
+        <h2>Uploaded files in the Bucket:</h2>
+
+        <p style="font-weight: bold;">Click on the filename to download it.....</p>
+        <table>
+          {% for item in contents %}
+          <tr>
+            <td><a style="color:black;" href="/download/{{ item['key'] }}">{{ item['key'] }}</a></td>
+          </tr>
+          {% endfor %}
+        </table>
+
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
